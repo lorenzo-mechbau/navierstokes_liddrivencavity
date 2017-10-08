@@ -1,0 +1,94 @@
+<?xml version='1.0'?>
+<model cmeta:id="InletBC" name="InletBC" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#">
+    <component name="main">
+        <!-- Units -->
+        <units name="per_second">
+            <unit exponent="-1" units="second"/>
+        </units>
+        <units name="metre_per_second">
+            <unit exponent="1" units="metre"/>
+            <unit exponent="-1" units="second"/>
+        </units>
+        <!-- Variables-->
+        <variable name="time" units="second"/>
+        <variable initial_value="0.0" name="x" units="metre"/>
+        <variable initial_value="0.0" name="y" units="metre"/>
+        <variable initial_value="0.5" name="A" units="metre_per_second"/>
+        <variable initial_value="0.5" name="B" units="metre_per_second"/>
+        <variable initial_value="10.0" name="C" units="second"/>
+        <variable initial_value="0.0" name="dummy" units="metre"/>
+        <variable name="lidx" units="metre_per_second"/>
+        <variable name="lidy" units="metre_per_second"/>
+        <!-- Equations-->
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>lidx</ci>
+                <piecewise>
+                    <piece>
+                        <apply>
+                            <plus/>
+                            <ci>A</ci>
+                            <ci>B</ci>
+                        </apply>
+                        <apply>
+                            <gt/>
+                            <ci>time</ci>
+                            <ci>C</ci>
+                        </apply>
+                    </piece>
+                    <otherwise>
+                        <apply>
+                            <plus/>
+                            <ci>A</ci>
+                            <apply>
+                                <times/>
+                                <ci>B</ci>
+                                <apply>
+                                    <sin/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <divide/>
+                                            <apply>
+                                                <times/>
+                                                <pi/>
+                                                <ci>time</ci>
+                                            </apply>
+                                            <ci>C</ci>
+                                        </apply>
+                                        <apply>
+                                            <divide/>
+                                            <pi/>
+                                            <cn cellml:units="dimensionless">2.0</cn>
+                                        </apply>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </otherwise>
+                </piecewise>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>lidy</ci>
+                <cn cellml:units="metre_per_second">0.0</cn>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>dummy</ci>
+                </apply>
+                <apply>
+                    <plus/>
+                    <ci>lidx</ci>
+                    <ci>lidy</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+</model>
