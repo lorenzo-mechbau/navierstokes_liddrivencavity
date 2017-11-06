@@ -100,6 +100,11 @@ fluidProblemUserNumber = 1
 import numpy,csv,time,sys,os,pdb
 from opencmiss.iron import iron
 
+if len(sys.argv) > 1:
+    cellml_file = sys.argv[1]
+else:
+    cellml_file = "input/fixedlidvelocity.cellml"
+
 # Diagnostics
 #iron.DiagnosticsSetOn(iron.DiagnosticTypes.ALL,[1,2,3,4,5],"Diagnostics",[""])
 #iron.ErrorHandlingModeSet(iron.ErrorHandlingModes.TRAP_ERROR)
@@ -501,7 +506,7 @@ if (progressDiagnostics):
 # Create CellML equations for the temporal boundary conditions
 bcCellML = iron.CellML()
 bcCellML.CreateStart(bcCellMLUserNumber,fluidRegion)
-bcCellMLIdx = bcCellML.ModelImport("input/fixedlidvelocity.cellml")
+bcCellMLIdx = bcCellML.ModelImport(cellml_file)
 bcCellML.VariableSetAsKnown(bcCellMLIdx,"main/A")
 bcCellML.VariableSetAsKnown(bcCellMLIdx,"main/B")
 bcCellML.VariableSetAsKnown(bcCellMLIdx,"main/C")
