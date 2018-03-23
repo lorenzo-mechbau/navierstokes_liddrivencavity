@@ -1,5 +1,5 @@
-gfx read node LidDrivenStart.part0.exnode;
-gfx read elem LidDrivenStart.part0.exelem;
+gfx read node TimeStep_0.part0.exnode;
+gfx read elem TimeStep_0.part0.exelem;
 
 gfx define faces egroup FluidRegion
 
@@ -14,17 +14,18 @@ gfx modify spectrum flow linear reverse range 0.0 1.00 extend_above extend_below
 
 gfx create spectrum pressure
 gfx modify spectrum pressure clear overwrite_colour
-gfx modify spectrum pressure linear reverse range -0.12 0.70 extend_above extend_below rainbow colour_range 0 1
+gfx modify spectrum pressure linear reverse range -0.12 0.60 extend_above extend_below rainbow colour_range 0 1
 
 gfx create window 1
-gfx modify window 1 layout 2D height 2000 width 2000;
+gfx modify window 1 layout 2d ortho_axes z -y eye_spacing 0.25 width 1000 height 1000;
+gfx modify window 1 view parallel eye_point 0.5 0.5 3.0 interest_point 0.5 0.5 0 up_vector -0 1 -0 view_angle 40 near_clipping_plane 0.144243 far_clipping_plane 6.0
 
 gfx modify g_element FluidRegion node_points glyph arrow_solid general size "0.03*0.03*0.03" centre 0,0,0 font default orientation velocities select_on material default data magnitude_velocity scale_factors "0.1*0.05*0.05" selected_material default_selected spectrum flow
 
 gfx modify g_element FluidRegion surfaces select_on material default data pressure spectrum pressure selected_material default_selected render_shaded;
 
 #Read in the sequence of nodal positions.
-for($i=0; $i < 1000; $i=$i+1)
+for($i=0; $i < 501; $i=$i+1)
   {
 	 $filename = sprintf("./TimeStep_%d.part0.exnode", $i);
 	 print "Reading $filename time $i\n";
