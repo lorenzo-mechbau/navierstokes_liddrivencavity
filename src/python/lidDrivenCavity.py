@@ -4,7 +4,7 @@
 
 useHermite = False
 
-numberOfElements = 10
+numberOfElements = 5
 
 cavitySize = 1.0
 elementSize = cavitySize/numberOfElements
@@ -21,7 +21,7 @@ progressDiagnostics = True
 debugLevel = 3
 
 startTime = 0.0
-stopTime  = 100.001
+stopTime  = 50.001
 timeStep  = 0.1
 
 # Lid velocity parameters
