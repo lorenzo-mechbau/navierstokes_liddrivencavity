@@ -36,7 +36,6 @@ Running the example
 Python version::
 
   source /path/to/opencmisslibs/install/virtaul_environments/oclibs_venv_pyXY_release/bin/activate
-  cd ./navierstokes_liddrivencavity/src/python
   python src/python/lidDrivenCavity.py
 
 Verifying the example
