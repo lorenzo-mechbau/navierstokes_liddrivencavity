@@ -105,6 +105,9 @@ if len(sys.argv) > 1:
 else:
     cellml_file = "input/fixedlidvelocity.cellml"
 
+worldRegion = iron.Region()
+iron.Context.WorldRegionGet(worldRegion)
+
 # Diagnostics
 #iron.DiagnosticsSetOn(iron.DiagnosticTypes.ALL,[1,2,3,4,5],"Diagnostics",[""])
 #iron.ErrorHandlingModeSet(iron.ErrorHandlingModes.TRAP_ERROR)
@@ -112,6 +115,7 @@ iron.OutputSetOn("Testing")
 
 # Get the computational nodes info
 computationEnvironment = iron.ComputationEnvironment()
+iron.Context.ComputationEnvironmentGet(computationEnvironment)
 numberOfComputationalNodes = computationEnvironment.NumberOfWorldNodesGet()
 computationalNodeNumber = computationEnvironment.WorldNodeNumberGet()
 
@@ -173,7 +177,7 @@ if (progressDiagnostics):
 
 # Create a RC coordinate system for the fluid region
 fluidCoordinateSystem = iron.CoordinateSystem()
-fluidCoordinateSystem.CreateStart(fluidCoordinateSystemUserNumber)
+fluidCoordinateSystem.CreateStart(fluidCoordinateSystemUserNumber,iron.Context)
 fluidCoordinateSystem.DimensionSet(2)
 fluidCoordinateSystem.CreateFinish()
 if (progressDiagnostics):
@@ -188,7 +192,7 @@ if (progressDiagnostics):
 
 # Create a fluid region
 fluidRegion = iron.Region()
-fluidRegion.CreateStart(fluidRegionUserNumber,iron.WorldRegion)
+fluidRegion.CreateStart(fluidRegionUserNumber,worldRegion)
 fluidRegion.label = 'FluidRegion'
 fluidRegion.coordinateSystem = fluidCoordinateSystem
 fluidRegion.CreateFinish()
@@ -204,7 +208,7 @@ if (progressDiagnostics):
     print('Basis functions ...')
 
 linearBasis = iron.Basis()
-linearBasis.CreateStart(linearBasisUserNumber)
+linearBasis.CreateStart(linearBasisUserNumber,iron.Context)
 linearBasis.type = iron.BasisTypes.LAGRANGE_HERMITE_TP
 linearBasis.numberOfXi = 2
 linearBasis.interpolationXi = [iron.BasisInterpolationSpecifications.LINEAR_LAGRANGE]*2
@@ -213,7 +217,7 @@ linearBasis.CreateFinish()
 if (useHermite):
     numberOfNodesXi = 2
     hermiteBasis = iron.Basis()
-    hermiteBasis.CreateStart(hermiteBasisUserNumber)
+    hermiteBasis.CreateStart(hermiteBasisUserNumber,iron.Context)
     hermiteBasis.type = iron.BasisTypes.LAGRANGE_HERMITE_TP
     hermiteBasis.numberOfXi = 2
     hermiteBasis.interpolationXi = [iron.BasisInterpolationSpecifications.CUBIC_HERMITE]*2
@@ -222,7 +226,7 @@ if (useHermite):
 else:
     numberOfNodesXi = 3
     quadraticBasis = iron.Basis()
-    quadraticBasis.CreateStart(quadraticBasisUserNumber)
+    quadraticBasis.CreateStart(quadraticBasisUserNumber,iron.Context)
     quadraticBasis.type = iron.BasisTypes.LAGRANGE_HERMITE_TP
     quadraticBasis.numberOfXi = 2
     quadraticBasis.interpolationXi = [iron.BasisInterpolationSpecifications.QUADRATIC_LAGRANGE]*2
@@ -604,7 +608,7 @@ else:
     fluidProblemSpecification = [iron.ProblemClasses.FLUID_MECHANICS,
                                  iron.ProblemTypes.NAVIER_STOKES_EQUATION,
                                  iron.ProblemSubtypes.TRANSIENT_NAVIER_STOKES]
-fluidProblem.CreateStart(fluidProblemUserNumber,fluidProblemSpecification)
+fluidProblem.CreateStart(fluidProblemUserNumber,iron.Context,fluidProblemSpecification)
 fluidProblem.CreateFinish()
 
 if (progressDiagnostics):
