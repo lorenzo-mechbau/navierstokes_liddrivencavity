@@ -337,7 +337,7 @@ fluidGeometricField.CreateStart(fluidGeometricFieldUserNumber,fluidRegion)
 if (useHermite):
     fluidGeometricField.ScalingTypeSet(iron.FieldScalingTypes.ARITHMETIC_MEAN)
 # Set the decomposition
-fluidGeometricField.MeshDecompositionSet(fluidDecomposition)
+fluidGeometricField.DecompositionSet(fluidDecomposition)
 # Set the scaling to use
 fluidGeometricField.ScalingTypeSet(iron.FieldScalingTypes.NONE)
 fluidGeometricField.VariableLabelSet(iron.FieldVariableTypes.U,'FluidGeometry')
