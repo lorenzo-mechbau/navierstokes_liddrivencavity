@@ -100,20 +100,31 @@ fluidProblemUserNumber = 1
 import numpy,csv,time,sys,os,pdb
 from opencmiss.iron import iron
 
+# Path from command line argument or cd
 if len(sys.argv) > 1:
-    cellml_file = sys.argv[1]
+    file_root_directory = sys.argv[1]
 else:
-    cellml_file = "input/fixedlidvelocity.cellml"
+    file_root_directory = os.path.dirname(__file__)
+
+# Filename from command line argument or default
+if len(sys.argv) > 2:
+    cellml_fileName = str(sys.argv[2])
+else:
+    cellml_fileName = "input/fixedlidvelocity.cellml"
+
+cellml_file = os.path.join(file_root_directory, cellml_fileName)
 
 # Diagnostics
 #iron.DiagnosticsSetOn(iron.DiagnosticTypes.ALL,[1,2,3,4,5],"Diagnostics",[""])
 #iron.ErrorHandlingModeSet(iron.ErrorHandlingModes.TRAP_ERROR)
 iron.OutputSetOn("Testing")
 
-# Get the computational nodes info
-computationEnvironment = iron.ComputationEnvironment()
-numberOfComputationalNodes = computationEnvironment.NumberOfWorldNodesGet()
-computationalNodeNumber = computationEnvironment.WorldNodeNumberGet()
+# Get the number of computational nodes and this computational node number
+#computationEnvironment = iron.ComputationEnvironment()
+#numberOfComputationalNodes = computationEnvironment.NumberOfWorldNodesGet()
+#computationalNodeNumber = computationEnvironment.WorldNodeNumberGet()
+numberOfComputationalNodes = iron.ComputationalNumberOfNodesGet()
+computationalNodeNumber = iron.ComputationalNodeNumberGet()
 
 #================================================================================================================================
 #  Initial Data & Default Values
@@ -882,3 +893,5 @@ fields.Finalise()
 #================================================================================================================================
 #  Finish Program
 #================================================================================================================================
+# Finalise OpenCMISS-Iron
+iron.Finalise()
